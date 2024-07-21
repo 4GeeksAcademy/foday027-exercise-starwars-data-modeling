@@ -13,18 +13,9 @@ class User(Base):
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     username = Column(String(250), nullable=False)
+    first_name = Column(String(250), nullable=False)
+    last_name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
-    password = Column(String(250), nullable=False)
-
-
-class Favorite(Base):
-    __tablename__ = 'Favorite'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    User_id = Column(Integer, ForeignKey('User.id'))
-    character_id = Column(Integer, ForeignKey('Character.id'))
-    planet_id = Column(Integer, ForeignKey('Planet.id'))
 
 class Character(Base):
     __tablename__ = 'Character'
@@ -40,6 +31,20 @@ class Planet(Base):
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
+
+
+class Favorite(Base):
+    __tablename__ = 'Favorite'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('User.id'))
+    user = relationship(User)
+    character_id = Column(Integer, ForeignKey('Character.id'))
+    character = relationship(Character)
+    planet_id = Column(Integer, ForeignKey('Planet.id'))
+    planet = relationship(Planet)
+
 
     def to_dict(self):
         return {}
